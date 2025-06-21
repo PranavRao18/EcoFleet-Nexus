@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, X, Leaf, Package, Truck, ShoppingCart, Eye, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Filter, X, Leaf, Package, Truck, ShoppingCart, Eye, ChevronDown, ChevronUp, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // Mock Products Data
@@ -370,6 +370,8 @@ const Storefront = () => {
     });
     const [cart, setCart] = useState([]);
 
+    const navigate = useNavigate();
+
     // Filter products based on search and filters
     const filteredProducts = mockProducts.filter(product => {
         // Search filter
@@ -404,50 +406,54 @@ const Storefront = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-bold text-gray-900">
-                            Green Store
-                        </h1>
+            <div className="flex items-center justify-between py-4 px-80">
+                <h1 className="text-2xl font-bold text-gray-900">
+                    Green Store
+                </h1>
 
-                        {/* Search Bar */}
-                        <div className="flex-1 max-w-2xl mx-8">
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                                <input
-                                    type="text"
-                                    placeholder="Search sustainable products..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
-                                />
-                            </div>
+                {/* Search Bar */}
+                <div className="flex-1 max-w-2xl mx-8">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <input
+                            type="text"
+                            placeholder="Search sustainable products..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                        />
+                    </div>
+                </div>
+
+                {/* Right-side Icons */}
+                <div className="flex items-center gap-4">
+                    {/* Mobile Filter Button */}
+                    <button
+                        onClick={() => setSidebarOpen(true)}
+                        className="lg:hidden flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                    >
+                        <Filter className="w-5 h-5 mr-2" />
+                        Filters
+                    </button>
+
+                    {/* Cart Counter */}
+                    <div className="hidden lg:flex items-center">
+                        <div className="relative">
+                            <ShoppingCart className="w-6 h-6 text-gray-600" />
+                            {cart.length > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {cart.length}
+                                </span>
+                            )}
                         </div>
+                    </div>
 
-                        {/* Mobile Filter Button */}
-                        <button
-                            onClick={() => setSidebarOpen(true)}
-                            className="lg:hidden flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-                        >
-                            <Filter className="w-5 h-5 mr-2" />
-                            Filters
-                        </button>
-
-                        {/* Cart Counter */}
-                        <div className="hidden lg:flex items-center">
-                            <div className="relative">
-                                <ShoppingCart className="w-6 h-6 text-gray-600" />
-                                {cart.length > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                        {cart.length}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
+                    <div onClick={() => navigate('/dashboard')} className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
+                        <User className="w-5 h-5 text-white" />
                     </div>
                 </div>
             </div>
+
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex gap-8">
