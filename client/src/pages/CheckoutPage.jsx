@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CreditCard, Leaf, Truck, CheckCircle, XCircle, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function CheckoutPage() {
   const [selectedPayment, setSelectedPayment] = useState('');
@@ -8,6 +9,8 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [showError, setShowError] = useState(false);
+
+  const navigate = useNavigate();
 
   const handlePlaceOrder = () => {
     if (!agreementChecked) {
@@ -30,6 +33,7 @@ export default function CheckoutPage() {
     setDeliveryAddress('');
     setAgreementChecked(false);
     setShowError(false);
+    navigate('/store');
   };
 
   if (orderPlaced) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Icons (lucide-react or similar)
 import { 
@@ -291,6 +291,8 @@ const ProductPage = () => {
   const [selectedDelivery, setSelectedDelivery] = useState('standard');
   const [quantity, setQuantity] = useState(1);
 
+  const navigate = useNavigate();
+
   // Mock delivery options
   const deliveryOptions = [
     {
@@ -480,7 +482,7 @@ const ProductPage = () => {
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Add to Cart
                 </button>
-                <button className="flex-1 bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:-translate-y-0.5 shadow-lg flex items-center justify-center">
+                <button className="flex-1 bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:-translate-y-0.5 shadow-lg flex items-center justify-center" onClick={() => navigate('/checkout')}>
                   <Zap className="w-5 h-5 mr-2" />
                   Buy Now
                 </button>

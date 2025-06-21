@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage';
 import Storefront from './pages/StoreFront';
 import ProductPage from './pages/ProductPage';
 import CheckoutPage from './pages/CheckoutPage';
+import UserDashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/store" element={<Storefront />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
         </Routes>
       </Router>
     </div>
