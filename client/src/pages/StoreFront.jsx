@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, X, Leaf, Package, Truck, ShoppingCart, Eye, ChevronDown, ChevronUp, User } from 'lucide-react';
+import { Search, Filter, X, Leaf, Package, Truck, ShoppingCart, Eye, ChevronDown, ChevronUp, User, Plus, Minus, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // Mock Products Data
@@ -131,18 +131,31 @@ const EcoScoreBadge = ({ score }) => {
 const ProductCard = ({ product, onAddToCart, onViewAlternative }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
-
     const navigate = useNavigate();
 
-    const handleCardClick = () => {
+    const handleCardClick = (e) => {
+        // Prevent navigation when clicking on buttons
+        if (e.target.closest('button')) {
+            return;
+        }
         navigate(`/product/${product.id}`);
+    };
+
+    const handleAddToCart = (e) => {
+        e.stopPropagation();
+        onAddToCart(product);
+    };
+
+    const handleViewAlternative = (e) => {
+        e.stopPropagation();
+        onViewAlternative(product);
     };
 
     return (
         <div
             onClick={handleCardClick}
-            className="group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
-            // onMouseEnter={() => setIsHovered(true)}
+            className="group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 cursor-pointer"
+            onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Image Container */}
@@ -163,17 +176,17 @@ const ProductCard = ({ product, onAddToCart, onViewAlternative }) => {
                     <EcoScoreBadge score={product.ecoScore} />
                 </div>
 
-                {/* Hover Actions */}
+                {/* Hover Actions
                 <div className={`absolute inset-0 bg-black/40 flex items-center justify-center space-x-3 transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
                     }`}>
                     <button
-                        onClick={() => onViewAlternative(product)}
+                        onClick={handleViewAlternative}
                         className="flex items-center px-4 py-2 bg-white/90 hover:bg-white text-gray-900 rounded-full font-medium transition-all duration-200 transform hover:scale-105"
                     >
                         <Eye className="w-4 h-4 mr-2" />
                         Alternatives
                     </button>
-                </div>
+                </div> */}
             </div>
 
             {/* Product Info */}
@@ -201,7 +214,7 @@ const ProductCard = ({ product, onAddToCart, onViewAlternative }) => {
 
                 {/* Add to Cart Button */}
                 <button
-                    onClick={() => onAddToCart(product)}
+                    onClick={handleAddToCart}
                     className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg"
                 >
                     <ShoppingCart className="w-5 h-5 mr-2" />
@@ -209,6 +222,121 @@ const ProductCard = ({ product, onAddToCart, onViewAlternative }) => {
                 </button>
             </div>
         </div>
+    );
+};
+
+// Cart Component
+const Cart = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, onClearCart }) => {
+    const getTotalPrice = () => {
+        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    };
+
+    const getTotalItems = () => {
+        return cart.reduce((total, item) => total + item.quantity, 0);
+    };
+
+    const navigate = useNavigate();
+
+    return (
+        <>
+            {isOpen && (
+                <div
+                    className="fixed inset-0 z-50 bg-[#00000099] bg-opacity-50 flex justify-end"
+                    onClick={onClose}
+                >
+                    <div
+                        className="bg-white w-full sm:w-96 h-full flex flex-col shadow-xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                            <h2 className="text-xl font-bold text-gray-900">
+                                Your Cart ({getTotalItems()})
+                            </h2>
+                            <button
+                                onClick={onClose}
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <X className="w-5 h-5 text-gray-600" />
+                            </button>
+                        </div>
+
+                        {/* Cart Items */}
+                        <div className="flex-1 overflow-y-auto p-6">
+                            {cart.length === 0 ? (
+                                <div className="text-center py-12">
+                                    <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                                    <p className="text-gray-500 text-lg mb-2">Your cart is empty</p>
+                                    <p className="text-gray-400 text-sm">Add some sustainable products to get started!</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    {cart.map((item) => (
+                                        <div key={item.id} className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl">
+                                            <img
+                                                src={item.image}
+                                                alt={item.name}
+                                                className="w-16 h-16 object-cover rounded-lg"
+                                            />
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="font-semibold text-gray-900 truncate">{item.name}</h3>
+                                                <p className="text-emerald-600 font-bold">${item.price}</p>
+                                                <div className="flex items-center gap-2 mt-2">
+                                                    <button
+                                                        onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                                                        className="p-1 hover:bg-white rounded-full transition-colors"
+                                                        disabled={item.quantity <= 1}
+                                                    >
+                                                        <Minus className="w-4 h-4 text-gray-600" />
+                                                    </button>
+                                                    <span className="w-8 text-center font-semibold">{item.quantity}</span>
+                                                    <button
+                                                        onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                                                        className="p-1 hover:bg-white rounded-full transition-colors"
+                                                    >
+                                                        <Plus className="w-4 h-4 text-gray-600" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
+                                                <button
+                                                    onClick={() => onRemoveItem(item.id)}
+                                                    className="text-red-500 hover:text-red-700 mt-2 p-1"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Footer */}
+                        {cart.length > 0 && (
+                            <div className="border-t border-gray-200 p-6 space-y-4">
+                                <div className="flex justify-between items-center text-lg font-bold">
+                                    <span>Total:</span>
+                                    <span className="text-emerald-600">${getTotalPrice().toFixed(2)}</span>
+                                </div>
+                                <div className="space-y-2">
+                                    <button className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 rounded-xl transition-all duration-300" onClick={() => navigate('/checkout')}>
+                                        Checkout
+                                    </button>
+                                    <button
+                                        onClick={onClearCart}
+                                        className="w-full text-gray-600 hover:text-gray-800 font-medium py-2 transition-colors"
+                                    >
+                                        Clear Cart
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
@@ -369,8 +497,7 @@ const Storefront = () => {
         packagingTypes: []
     });
     const [cart, setCart] = useState([]);
-
-    const navigate = useNavigate();
+    const [showCart, setShowCart] = useState(false);
 
     // Filter products based on search and filters
     const filteredProducts = mockProducts.filter(product => {
@@ -393,9 +520,40 @@ const Storefront = () => {
     });
 
     const handleAddToCart = (product) => {
-        setCart(prev => [...prev, product]);
-        // Could add toast notification here
-        console.log('Added to cart:', product.name);
+        setCart(prev => {
+            const existingItem = prev.find(item => item.id === product.id);
+            if (existingItem) {
+                return prev.map(item =>
+                    item.id === product.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            } else {
+                return [...prev, { ...product, quantity: 1 }];
+            }
+        });
+    };
+
+    const handleUpdateQuantity = (productId, newQuantity) => {
+        if (newQuantity <= 0) {
+            handleRemoveItem(productId);
+            return;
+        }
+        setCart(prev =>
+            prev.map(item =>
+                item.id === productId
+                    ? { ...item, quantity: newQuantity }
+                    : item
+            )
+        );
+    };
+
+    const handleRemoveItem = (productId) => {
+        setCart(prev => prev.filter(item => item.id !== productId));
+    };
+
+    const handleClearCart = () => {
+        setCart([]);
     };
 
     const handleViewAlternative = (product) => {
@@ -403,57 +561,76 @@ const Storefront = () => {
         // Could open modal or navigate to alternatives page
     };
 
+    const getTotalCartItems = () => {
+        return cart.reduce((total, item) => total + item.quantity, 0);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
+            {/* Cart Sidebar */}
+            <Cart
+                isOpen={showCart}
+                onClose={() => setShowCart(false)}
+                cart={cart}
+                onUpdateQuantity={handleUpdateQuantity}
+                onRemoveItem={handleRemoveItem}
+                onClearCart={handleClearCart}
+            />
+
             {/* Header */}
-            <div className="flex items-center justify-between py-4 px-80">
-                <h1 className="text-2xl font-bold text-gray-900">
-                    Green Store
-                </h1>
+            <div className="bg-white shadow-sm sticky top-0 z-30">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between py-4">
+                        <h1 className="text-2xl font-bold text-gray-900">
+                            Green Store
+                        </h1>
 
-                {/* Search Bar */}
-                <div className="flex-1 max-w-2xl mx-8">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                        <input
-                            type="text"
-                            placeholder="Search sustainable products..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
-                        />
-                    </div>
-                </div>
-
-                {/* Right-side Icons */}
-                <div className="flex items-center gap-4">
-                    {/* Mobile Filter Button */}
-                    <button
-                        onClick={() => setSidebarOpen(true)}
-                        className="lg:hidden flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-                    >
-                        <Filter className="w-5 h-5 mr-2" />
-                        Filters
-                    </button>
-
-                    {/* Cart Counter */}
-                    <div className="hidden lg:flex items-center">
-                        <div className="relative">
-                            <ShoppingCart className="w-6 h-6 text-gray-600" />
-                            {cart.length > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                    {cart.length}
-                                </span>
-                            )}
+                        {/* Search Bar */}
+                        <div className="flex-1 max-w-2xl mx-8">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="text"
+                                    placeholder="Search sustainable products..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div onClick={() => navigate('/dashboard')} className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
-                        <User className="w-5 h-5 text-white" />
+                        {/* Right-side Icons */}
+                        <div className="flex items-center gap-4">
+                            {/* Mobile Filter Button */}
+                            <button
+                                onClick={() => setSidebarOpen(true)}
+                                className="lg:hidden flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                            >
+                                <Filter className="w-5 h-5 mr-2" />
+                                Filters
+                            </button>
+
+                            {/* Cart Button */}
+                            <button
+                                onClick={() => setShowCart(true)}
+                                className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <ShoppingCart className="w-6 h-6 text-gray-600" />
+                                {getTotalCartItems() > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                                        {getTotalCartItems()}
+                                    </span>
+                                )}
+                            </button>
+
+                            {/* User Avatar */}
+                            <button className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center hover:shadow-lg transition-shadow" onClick={() => navigate('/dashboard')}>
+                                <User className="w-5 h-5 text-white" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex gap-8">
