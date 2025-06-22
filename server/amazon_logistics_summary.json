@@ -1,0 +1,16 @@
+{
+    "time_optimized_route": {
+        "distance_km": 235.5,
+        "duration_hours": 3.4,
+        "carbon_kg_co2": 213.0,
+        "hubs_used": 5
+    },
+    "eco_optimized_route": {
+        "distance_km": 235.6,
+        "duration_hours": 5.1,
+        "carbon_kg_co2": 62.0,
+        "hubs_used": 5,
+        "duration_increase_percent": 49.6,
+        "carbon_decrease_percent": 70.9
+    }
+}
