@@ -418,7 +418,8 @@ const ProductPage = () => {
             time: 'Tomorrow by 6 PM',
             icon: Truck,
             description: 'Fast and reliable delivery to your doorstep',
-            price: 'Free',
+            price: '₹19.49',
+            originalPrice: '₹29.99',
             benefits: []
         },
         {
@@ -428,7 +429,8 @@ const ProductPage = () => {
             icon: Leaf,
             badge: 'ECO CHOICE',
             description: 'Optimized delivery route with electric vehicles',
-            price: 'Free',
+            price: '₹19.49',
+            originalPrice: '₹29.99',
             benefits: [
                 { text: 'Save 120g CO₂e', highlight: true },
                 { text: 'Earn ₹10 EcoCredit', highlight: true },
@@ -442,8 +444,7 @@ const ProductPage = () => {
             icon: Users,
             badge: '35% OFF',
             description: 'Combined with neighbor orders for maximum efficiency',
-            price: '₹19.49',
-            originalPrice: '₹29.99',
+            price: 'Free',
             benefits: [
                 { text: '35% discount applied', highlight: true },
                 { text: 'Reduce delivery emissions by 60%', highlight: true },
@@ -546,7 +547,7 @@ const ProductPage = () => {
             {/* Header */}
             <div className="flex items-center justify-between py-4 px-80">
                 <h1 className="text-2xl font-bold text-gray-900">
-                    Green Store
+                    EcoFleet Nexus
                 </h1>
 
                 {/* Right-side Icons */}

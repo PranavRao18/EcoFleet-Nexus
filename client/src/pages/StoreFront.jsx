@@ -499,6 +499,8 @@ const Storefront = () => {
     const [cart, setCart] = useState([]);
     const [showCart, setShowCart] = useState(false);
 
+    const navigate = useNavigate();
+
     // Filter products based on search and filters
     const filteredProducts = mockProducts.filter(product => {
         // Search filter
@@ -582,7 +584,7 @@ const Storefront = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between py-4">
                         <h1 className="text-2xl font-bold text-gray-900">
-                            Green Store
+                            EcoFleet Nexus
                         </h1>
 
                         {/* Search Bar */}
