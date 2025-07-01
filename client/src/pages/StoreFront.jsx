@@ -7,7 +7,7 @@ const mockProducts = [
     {
         id: 1,
         name: "Organic Cotton T-Shirt",
-        price: 29.99,
+        price: 299,
         image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
         ecoScore: "A+",
         co2Footprint: "0.8 kg CO₂e",
@@ -17,7 +17,7 @@ const mockProducts = [
     {
         id: 2,
         name: "Bamboo Fiber Hoodie",
-        price: 49.99,
+        price: 499,
         image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop",
         ecoScore: "A",
         co2Footprint: "1.2 kg CO₂e",
@@ -27,7 +27,7 @@ const mockProducts = [
     {
         id: 3,
         name: "Recycled Phone Case",
-        price: 19.99,
+        price: 199,
         image: "https://images.unsplash.com/photo-1601593346740-925612772716?w=400&h=400&fit=crop",
         ecoScore: "A+",
         co2Footprint: "0.3 kg CO₂e",
@@ -37,7 +37,7 @@ const mockProducts = [
     {
         id: 4,
         name: "Solar Power Bank",
-        price: 79.99,
+        price: 799,
         image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
         ecoScore: "A",
         co2Footprint: "2.1 kg CO₂e",
@@ -47,7 +47,7 @@ const mockProducts = [
     {
         id: 5,
         name: "Biodegradable Soap Bar",
-        price: 8.99,
+        price: 89,
         image: "https://images.unsplash.com/photo-1585022150787-c6ec2dac4e2c?w=400&h=400&fit=crop",
         ecoScore: "A+",
         co2Footprint: "0.1 kg CO₂e",
@@ -57,7 +57,7 @@ const mockProducts = [
     {
         id: 6,
         name: "Sustainable Yoga Mat",
-        price: 89.99,
+        price: 899,
         image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop",
         ecoScore: "B",
         co2Footprint: "3.2 kg CO₂e",
@@ -67,7 +67,7 @@ const mockProducts = [
     {
         id: 7,
         name: "Organic Coffee Beans",
-        price: 24.99,
+        price: 249,
         image: "https://images.unsplash.com/photo-1587080461634-8c0c9e5de3e6?w=400&h=400&fit=crop",
         ecoScore: "A",
         co2Footprint: "1.8 kg CO₂e",
@@ -77,7 +77,7 @@ const mockProducts = [
     {
         id: 8,
         name: "Reusable Water Bottle",
-        price: 34.99,
+        price: 349,
         image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
         ecoScore: "A+",
         co2Footprint: "0.9 kg CO₂e",
@@ -196,7 +196,7 @@ const ProductCard = ({ product, onAddToCart, onViewAlternative }) => {
                         {product.name}
                     </h3>
                     <p className="text-2xl font-bold text-emerald-600 mt-1">
-                        ${product.price}
+                        ₹{product.price}
                     </p>
                 </div>
 

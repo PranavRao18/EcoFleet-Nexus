@@ -28,8 +28,8 @@ const mockProducts = [
     {
         id: '1',
         name: "Organic Cotton T-Shirt",
-        price: 29.99,
-        originalPrice: 39.99,
+        price: 299,
+        originalPrice: 399,
         image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop",
         images: [
             "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop",
@@ -57,8 +57,8 @@ const mockProducts = [
     {
         id: '2',
         name: "Bamboo Fiber Hoodie",
-        price: 49.99,
-        originalPrice: 64.99,
+        price: 499,
+        originalPrice: 649,
         image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=800&fit=crop",
         images: [
             "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=800&fit=crop",
@@ -176,9 +176,9 @@ const DeliveryOptionCard = ({ option, isSelected, onSelect }) => {
 
                 {option.price && (
                     <div className="text-right">
-                        <div className="text-lg font-bold text-gray-900">{option.price}</div>
+                        <div className="text-lg font-bold text-gray-900">₹{option.price}</div>
                         {option.originalPrice && (
-                            <div className="text-sm text-gray-500 line-through">{option.originalPrice}</div>
+                            <div className="text-sm text-gray-500 line-through">₹{option.originalPrice}</div>
                         )}
                     </div>
                 )}
@@ -220,9 +220,9 @@ const ImpactBar = ({ current, average, label }) => {
                     />
                 </div>
 
-                <div className="absolute -top-8 right-0 text-xs text-gray-500">
+                {/* <div className="absolute -top-8 right-0 text-xs text-gray-500">
                     Average
-                </div>
+                </div> */}
 
                 <div
                     className="absolute -bottom-8 transition-all duration-1000 ease-out text-xs font-medium"
@@ -418,8 +418,8 @@ const ProductPage = () => {
             time: 'Tomorrow by 6 PM',
             icon: Truck,
             description: 'Fast and reliable delivery to your doorstep',
-            price: '₹19.49',
-            originalPrice: '₹29.99',
+            price: 19.49,
+            originalPrice: 29.99,
             benefits: []
         },
         {
@@ -429,8 +429,7 @@ const ProductPage = () => {
             icon: Leaf,
             badge: 'ECO CHOICE',
             description: 'Optimized delivery route with electric vehicles',
-            price: '₹19.49',
-            originalPrice: '₹29.99',
+            price: 'Free',
             benefits: [
                 { text: 'Save 120g CO₂e', highlight: true },
                 { text: 'Earn ₹10 EcoCredit', highlight: true },
@@ -442,11 +441,11 @@ const ProductPage = () => {
             name: 'Group Delivery',
             time: '2-3 days',
             icon: Users,
-            badge: '35% OFF',
+            badge: '5% OFF',
             description: 'Combined with neighbor orders for maximum efficiency',
             price: 'Free',
             benefits: [
-                { text: '35% discount applied', highlight: true },
+                { text: '5% discount applied', highlight: true },
                 { text: 'Reduce delivery emissions by 60%', highlight: true },
                 { text: 'Help build sustainable communities' }
             ]
@@ -847,7 +846,7 @@ const ProductPage = () => {
                         <div className="border-t border-gray-200 pt-3 flex justify-between">
                             <span className="text-lg font-bold text-gray-900">Total</span>
                             <span className="text-lg font-bold text-emerald-600">
-                                ₹{(product.price * quantity).toFixed(2)}
+                                ₹{(product.price * quantity) + (selectedDelivery === 'standard' ? 19.99 : 0)}
                             </span>
                         </div>
                     </div>

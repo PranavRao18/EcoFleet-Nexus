@@ -81,7 +81,41 @@ export default function CheckoutPage() {
           <p className="text-gray-600">Complete your sustainable purchase</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-emerald-100">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-emerald-100"
+                  onChange={(e) => setUseEcoCredits(e.target.checked)}>
+
+          {/* EcoCredits Checkbox Section */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Leaf className="w-5 h-5 text-emerald-500" />
+              EcoCredits
+            </h2>
+            
+            <label className="flex items-start gap-3 cursor-pointer group p-4 rounded-xl border-2 border-gray-200 hover:border-emerald-300 transition-all duration-300">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  checked={useEcoCredits}
+                  onChange={(e) => setUseEcoCredits(e.target.checked)}
+                  className="sr-only"
+                />
+                <div className={`w-5 h-5 border-2 rounded transition-all duration-300 flex items-center justify-center ${
+                  useEcoCredits
+                    ? 'border-emerald-500 bg-emerald-500'
+                    : 'border-gray-300 group-hover:border-emerald-400'
+                }`}>
+                  {useEcoCredits && (
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  )}
+                </div>
+              </div>
+              <div className="flex-1">
+                <span className="text-gray-700 font-medium block">Use EcoCredits (₹50 available)</span>
+              </div>
+            </label>
+          </div>
+
+
           {/* Payment Method Section */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
@@ -118,38 +152,7 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* EcoCredits Checkbox Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <Leaf className="w-5 h-5 text-emerald-500" />
-              EcoCredits
-            </h2>
-            
-            <label className="flex items-start gap-3 cursor-pointer group p-4 rounded-xl border-2 border-gray-200 hover:border-emerald-300 transition-all duration-300">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  checked={useEcoCredits}
-                  onChange={(e) => setUseEcoCredits(e.target.checked)}
-                  className="sr-only"
-                />
-                <div className={`w-5 h-5 border-2 rounded transition-all duration-300 flex items-center justify-center ${
-                  useEcoCredits
-                    ? 'border-emerald-500 bg-emerald-500'
-                    : 'border-gray-300 group-hover:border-emerald-400'
-                }`}>
-                  {useEcoCredits && (
-                    <CheckCircle className="w-3 h-3 text-white" />
-                  )}
-                </div>
-              </div>
-              <div className="flex-1">
-                <span className="text-gray-700 font-medium block">Use EcoCredits (₹50 available)</span>
-                <span className="text-gray-500 text-sm">Get 10% off and earn green karma points!</span>
-              </div>
-            </label>
-          </div>
-
+          
           {/* Delivery Address Section */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
